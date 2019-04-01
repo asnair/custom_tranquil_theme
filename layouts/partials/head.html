@@ -25,9 +25,15 @@
     <meta name="keywords" content="{{ with .Keywords }}{{ delimit . ", " }}{{ end }}{{ if .Site.Params.keywords }}, {{ delimit .Site.Params.keywords ", " }}{{ end }}">
 
     <link rel="icon" href="/favicon.png">
-    {{ with .RSSlink }}
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ . }}">
-    {{ end }}
+    !<-- {{ if .RSSLink }} -->
+    !<-- link rel="alternate" type="application/rss+xml" title="RSS" href="{{ .RSSLink }}" -->
+    !<-- {{ end }} -->
+
+    {{ range .AlternativeOutputFormats -}}
+
+    <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+
+    {{ end -}}
 
     <!-- open graph data -->
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else if .IsPage }}{{ .Summary }}{{ else }}{{ .Site.Params.description }}{{ end }}">
@@ -89,4 +95,20 @@
     <!--STYLES END-->
     
     {{ partial "google-analytics.html" }}
+	
+	  <!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  // tracker methods like "setCustomDimension" should be called before "trackPageView"
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//gooddebate.org/infoview/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
   </head>
